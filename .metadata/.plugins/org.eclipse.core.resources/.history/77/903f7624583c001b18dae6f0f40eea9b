@@ -1,0 +1,300 @@
+package default1;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+import java.sql.DriverManager;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import java.awt.Color;
+import javax.swing.JTable;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+
+
+public class editarperfil extends JFrame {
+
+	private JPanel contentPane;
+	private Connection conexion;
+	private JTextField txtcodigo;
+	private JTextField txtfechaN;
+	private JTextField txtemail;
+	private JTextField txtelefono;
+	private JTextField txtdni;
+	private JTextField txtape;
+	private JTextField txtnom;
+	private JTextField txtEspecialidad;
+	private JButton btnEliminar;
+	private JTable table;
+	DefaultTableModel dfm =new DefaultTableModel();
+	private JScrollPane scrollPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					editarperfil frame = new editarperfil();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+public 	editarperfil() {
+initialize();
+try {
+	
+	conexion=DriverManager.getConnection("jdbc:mysql://localhost/REGISTRO_DOCENTE?useTimezOne=true&serverTimezone=UTC","root","jesusesmivida07");
+	
+	table=this.table;
+	table.setModel(dfm);
+	dfm.setColumnIdentifiers(new Object[] {"ID","NOMBRE","APELLIDO","DNI","TELEFONO","EMAIL","FECHA","ESPECIALIDAD"});
+	Mostrar_grid();
+	
+	
+}catch(Exception e) {
+	e.getStackTrace();
+}
+}
+
+	/**
+	 * Create the frame.
+	 */
+	public void initialize() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 666, 404);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton BOTON_ACTUALIZAR = new JButton("ACTUALIZAR");
+		BOTON_ACTUALIZAR.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Actualizar_datos();
+			}
+		});
+		BOTON_ACTUALIZAR.setBounds(537, 49, 103, 23);
+		contentPane.add(BOTON_ACTUALIZAR);
+		
+		JLabel codigo = new JLabel("codigoo");
+		codigo.setBounds(10, 0, 46, 14);
+		contentPane.add(codigo);
+		
+		txtcodigo = new JTextField();
+		txtcodigo.setBackground(Color.WHITE);
+		txtcodigo.setColumns(10);
+		txtcodigo.setBounds(10, 25, 86, 20);
+		contentPane.add(txtcodigo);
+		
+		JLabel lblNombre = new JLabel("Nombre:");
+		lblNombre.setBounds(2, 58, 110, 14);
+		contentPane.add(lblNombre);
+		
+		JLabel lblNewLabel = new JLabel("Apellidos:");
+		lblNewLabel.setBounds(2, 103, 110, 14);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblDNI = new JLabel("DNI:");
+		lblDNI.setBounds(154, 3, 110, 14);
+		contentPane.add(lblDNI);
+		
+		JLabel lblTelefono = new JLabel("Telefono:");
+		lblTelefono.setBounds(154, 53, 110, 14);
+		contentPane.add(lblTelefono);
+		
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setBounds(157, 103, 110, 14);
+		contentPane.add(lblEmail);
+		
+		JLabel lblNewLabel_2 = new JLabel("Fecha Nacimiento");
+		lblNewLabel_2.setBounds(320, 3, 110, 14);
+		contentPane.add(lblNewLabel_2);
+		
+		JLabel lblEspecialidad = new JLabel("Especialidad:");
+		lblEspecialidad.setBounds(320, 53, 110, 14);
+		contentPane.add(lblEspecialidad);
+		
+		txtfechaN = new JTextField();
+		txtfechaN.setBackground(new Color(245, 245, 220));
+		txtfechaN.setColumns(10);
+		txtfechaN.setBounds(319, 25, 137, 20);
+		contentPane.add(txtfechaN);
+		
+		txtemail = new JTextField();
+		txtemail.setBackground(new Color(245, 245, 220));
+		txtemail.setColumns(10);
+		txtemail.setBounds(154, 124, 137, 20);
+		contentPane.add(txtemail);
+		
+		txtelefono = new JTextField();
+		txtelefono.setBackground(new Color(245, 245, 220));
+		txtelefono.setColumns(10);
+		txtelefono.setBounds(147, 78, 137, 20);
+		contentPane.add(txtelefono);
+		
+		txtdni = new JTextField();
+		txtdni.setBackground(new Color(245, 245, 220));
+		txtdni.setColumns(10);
+		txtdni.setBounds(147, 25, 137, 20);
+		contentPane.add(txtdni);
+		
+		txtape = new JTextField();
+		txtape.setBackground(new Color(245, 245, 220));
+		txtape.setColumns(10);
+		txtape.setBounds(7, 124, 124, 20);
+		contentPane.add(txtape);
+		
+		txtnom = new JTextField();
+		txtnom.setBackground(new Color(245, 245, 220));
+		txtnom.setColumns(10);
+		txtnom.setBounds(10, 72, 112, 20);
+		contentPane.add(txtnom);
+		
+		btnEliminar = new JButton("ELIMINAR");
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Eliminar_datos();
+				txtcodigo.setText("");
+				txtnom.setText("");
+				txtape.setText("");
+				txtdni.setText("");
+				txtelefono.setText("");
+				txtemail.setText("");
+				txtfechaN.setText("");
+				txtEspecialidad.setText("");
+			}
+		});
+		btnEliminar.setBounds(537, 83, 103, 23);
+		contentPane.add(btnEliminar);
+		
+		txtEspecialidad = new JTextField();
+		txtEspecialidad.setBackground(new Color(245, 245, 220));
+		txtEspecialidad.setColumns(10);
+		txtEspecialidad.setBounds(316, 78, 137, 20);
+		contentPane.add(txtEspecialidad);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 175, 642, 178);
+		contentPane.add(scrollPane);
+		
+		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				String id;
+				String nombre,ape,dni,fono,correo,fecha,especialidad;
+				int fila = table.getSelectedRow();
+				
+				id=table.getValueAt(fila, 0).toString();
+				
+				nombre=table.getValueAt(fila,1).toString();
+				JOptionPane.showMessageDialog(null,"El nombre es: "+ nombre );
+				ape=table.getValueAt(fila,2).toString();
+				dni=table.getValueAt(fila,3).toString();
+			fono=table.getValueAt(fila,4).toString();
+				correo=table.getValueAt(fila,5).toString();
+				fecha=table.getValueAt(fila,6).toString();
+				especialidad=table.getValueAt(fila,7).toString();
+			
+				txtcodigo.setText(String.valueOf(id));
+				txtnom.setText(String.valueOf(nombre));
+				txtape.setText(String.valueOf(ape));
+				txtdni.setText(String.valueOf(dni));
+				txtelefono.setText(fono);
+				txtemail.setText(correo);
+				txtfechaN.setText(fecha);
+				txtEspecialidad.setText(especialidad);
+			}
+		});
+		scrollPane.setViewportView(table);
+	}
+	private void Mostrar_grid() {
+		try {
+			int filas=table.getRowCount();
+            for (int i = 0;filas>i; i++) {
+                dfm.removeRow(0);
+            }
+			final String consulta="SELECT * FROM reg_docente";
+			ResultSet rs = null;
+			Statement sentencia = conexion.createStatement();
+			rs = sentencia.executeQuery(consulta);
+			
+			while(rs.next())
+dfm.addRow(new Object[] {rs.getString("id"),rs.getString("nombre"),rs.getString("apellidos"),rs.getString("dni"),
+	rs.getString("telefono"),rs.getString("correo_electronico"),rs.getString("fecha_nacimiento"),rs.getString("especialidad")});
+		
+		}catch(Exception e){
+			e.getStackTrace();
+			JOptionPane.showMessageDialog(null,"Error al mostrar desde BD");}
+	}
+	
+	
+	
+	private void Eliminar_datos() {
+		try {
+			String codigo=txtcodigo.getText();
+			final String consulta="DELETE FROM reg_docente WHERE id="+ codigo;
+			PreparedStatement sentencia= conexion.prepareStatement(consulta);
+			sentencia.execute();
+			Mostrar_grid();
+		}catch(Exception e){
+			e.getStackTrace();
+			JOptionPane.showMessageDialog(null,"Error al eliminar a BD");}
+	}
+	
+	private void Actualizar_datos() {
+		try {
+			//String codigo=txtc.getText();
+			final String consulta="UPDATE reg_docente SET nombre=?,apellidos=?,dni=?,telefono=?,correo_electronico=?,fecha_nacimiento=?, especialidad=? WHERE id=?";
+			PreparedStatement sentencia = conexion.prepareStatement(consulta);
+			sentencia.setString(1,txtnom.getText());
+			sentencia.setString(2,txtape.getText());
+			sentencia.setString(3,txtdni.getText());
+			sentencia.setString(4,txtelefono.getText());
+			sentencia.setString(5,txtemail.getText());
+			sentencia.setString(6,txtfechaN.getText());
+			sentencia.setString(7,txtEspecialidad.getText());
+			sentencia.setString(8, txtcodigo.getText());
+			sentencia.executeUpdate();
+			Mostrar_grid();
+		}catch(Exception e){
+			e.getStackTrace();
+			JOptionPane.showMessageDialog(null,"Error al actualizar en BD");}
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+}

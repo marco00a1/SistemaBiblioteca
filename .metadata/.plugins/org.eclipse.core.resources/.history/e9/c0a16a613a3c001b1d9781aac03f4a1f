@@ -1,0 +1,25 @@
+package default1;
+import java.sql.*;
+public class MysqlConexion {
+	
+	public static Connection getConexion() {
+		Connection con = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			String url="jdbc:mysql://localhost/FORM_LOGIN?useTimezOne=true&serverTimezone=UTC";
+			String usr="root";
+			String psw="jesusesmivida07";
+			con= DriverManager.getConnection(url,usr,psw);
+			System.out.println("Conexion ok");
+			
+		} catch (ClassNotFoundException e) {
+			System.out.println("No hay driver");
+		} catch (SQLException e) {
+			System.out.println("Error con la BD..");
+			e.printStackTrace();
+		}
+			
+		return con;
+	}
+
+}

@@ -1,0 +1,226 @@
+package formularios;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import bean.Usuario;
+import default1.Menu;
+import mantenimiento.GestionUsuario;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JProgressBar;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.Cursor;
+
+public class frmLogin extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField txtUsuario;
+	private JPasswordField txtContraseña;
+	public static JProgressBar pbCargar;
+	private JButton btnIngresar;
+	private JLabel lblNewLabel;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					frmLogin frame = new frmLogin();
+					frame.setVisible(true);
+					frmLogin.setLocationRelativeTo(null); //se posiciona al medio el jdialog
+					
+					
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public frmLogin() {
+		setTitle("Acceso al Sistema");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 388, 487);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		txtContraseña = new JPasswordField();
+		txtContraseña.setBorder(null);
+		txtContraseña.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+				//lblErrorContraseña.setVisible(false);
+				txtContraseña.setCaretColor(Color.black);
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(txtContraseña.getText().length()>0){
+					btnIngresar.setEnabled(true);
+				}else{
+					btnIngresar.setEnabled(false);
+				}
+			}
+		});
+		
+		txtUsuario = new JTextField();
+		txtUsuario.setBorder(null);
+		txtUsuario.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+				//lblErrorUsuario.setVisible(false);
+				txtUsuario.setCaretColor(Color.black);
+			}
+		});
+		txtUsuario.setBounds(65, 187, 273, 48);
+		contentPane.add(txtUsuario);
+		txtUsuario.setColumns(10);
+		txtContraseña.setBounds(65, 269, 273, 48);
+		contentPane.add(txtContraseña);
+		
+		JLabel lblUsuario = new JLabel("");
+		lblUsuario.setIcon(new ImageIcon(frmLogin.class.getResource("/imagenes/login/txt_user.png")));
+		lblUsuario.setBounds(17, 187, 332, 48);
+		contentPane.add(lblUsuario);
+		
+		JLabel lblContraseña = new JLabel("");
+		lblContraseña.setIcon(new ImageIcon(frmLogin.class.getResource("/imagenes/login/txt_pass.png")));
+		lblContraseña.setBounds(17, 269, 332, 48);
+		contentPane.add(lblContraseña);
+		
+		JButton btnSalir = new JButton("");
+		btnSalir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnSalir.setContentAreaFilled(false);
+		btnSalir.setBorder(null);
+		btnSalir.setBorderPainted(false);
+		btnSalir.setBackground(Color.WHITE);
+		btnSalir.setIcon(new ImageIcon(frmLogin.class.getResource("/imagenes/login/btn_cancel_2.png")));
+		btnSalir.setBounds(244, 379, 118, 58);
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				salir();
+			}
+		});
+		contentPane.add(btnSalir);
+		
+		btnIngresar = new JButton("");
+		btnIngresar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnIngresar.setContentAreaFilled(false);
+		btnIngresar.setBorderPainted(false);
+		btnIngresar.setBorder(null);
+		btnIngresar.setBackground(Color.WHITE);
+		btnIngresar.setEnabled(false);
+		btnIngresar.setIcon(new ImageIcon(frmLogin.class.getResource("/imagenes/login/btn_iniciar_2.png")));
+		btnIngresar.setBounds(17, 379, 118, 58);
+		btnIngresar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ingresar();
+			}
+		});
+		contentPane.add(btnIngresar);
+		
+		pbCargar = new JProgressBar();
+		pbCargar.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				cargar();
+			}
+		});
+		pbCargar.setStringPainted(true);
+		pbCargar.setBounds(85, 342, 202, 14);
+		contentPane.add(pbCargar);
+		
+		lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(frmLogin.class.getResource("/imagenes/login/frame_2.png")));
+		lblNewLabel.setBounds(0, 0, 375, 447);
+		contentPane.add(lblNewLabel);
+	}
+
+	protected void cargar() {
+		
+		if(pbCargar.getValue()==100) {
+			
+			Menu me = new Menu();
+			me.setVisible(true);
+			me.setLocationRelativeTo(null);
+			
+			this.dispose();
+			
+			JOptionPane.showMessageDialog(rootPane,"Bienvenido al Sistema");
+			
+		}
+	}
+
+	protected void ingresar() {
+	
+		String usuario=txtUsuario.getText();
+		String clave=String.valueOf(txtContraseña.getPassword());
+		
+		GestionUsuario gestion = new GestionUsuario();
+		
+		Usuario usuario2 = new Usuario();
+		usuario2.setUsuario(usuario);
+		usuario2.setClave(clave);
+		
+		
+		Usuario usu = gestion.obtenerUsuario(usuario2);
+		
+		if(usu!=null) {
+			
+			
+
+			
+			HiloBarra ba = new HiloBarra();
+			ba.start();
+			
+			
+			
+			
+		}else if(txtUsuario.getText().equals("")) {
+			
+			//lblErrorUsuario.setVisible(true);
+			txtUsuario.setCaretColor(Color.RED);
+			txtUsuario.requestFocus();
+			
+			
+			
+			
+		}else if(txtContraseña.getText().equals("")){
+			//lblErrorContraseña.setVisible(true);
+			txtContraseña.setCaretColor(Color.RED);
+			txtContraseña.requestFocus();
+			
+			JOptionPane.showMessageDialog(contentPane,"Datos invalidos","Error",JOptionPane.ERROR_MESSAGE);
+		}
+		
+	}
+
+	protected void salir() {
+		System.exit(0);
+		
+	}
+}

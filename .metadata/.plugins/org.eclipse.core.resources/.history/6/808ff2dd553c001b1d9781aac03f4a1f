@@ -1,0 +1,189 @@
+package default1;
+
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import com.mysql.cj.x.protobuf.MysqlxNotice.Frame;
+
+import javax.swing.JDesktopPane;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JSeparator;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
+public class Menu extends JFrame {
+	
+
+	private JPanel contentPane;
+	private JDesktopPane desktopPane;
+	 RegistroDocente re= new RegistroDocente();
+	 OfertasdeTrabajo of = new OfertasdeTrabajo();
+	 Component forreg= formREGISTRODOC();
+	 PorZona zon= new PorZona();
+	buscarXnombre b=new buscarXnombre();
+
+	editarperfil ed=new editarperfil();
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Menu frame = new Menu();
+					frame.setVisible(true);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	private Component formREGISTRODOC() {
+		// TODO Apéndice de método generado automáticamente
+		return null;
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Menu() {
+		setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 586, 355);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("Sistemas");
+		mnNewMenu.setIcon(new ImageIcon(Menu.class.getResource("/imagenes/iconfinder_personal-information_47997.png")));
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Salir");
+		mntmNewMenuItem.setIcon(new ImageIcon(Menu.class.getResource("/img/Remove_32x32.png")));
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
+		mnNewMenu.add(mntmNewMenuItem);
+		
+		JMenu mnNewMenu_1 = new JMenu("Mantenimiento");
+		mnNewMenu_1.setIcon(new ImageIcon(Menu.class.getResource("/imagenes/iconfinder_management_2799204.png")));
+		menuBar.add(mnNewMenu_1);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Registro Docente");
+		mntmNewMenuItem_1.setIcon(new ImageIcon(Menu.class.getResource("/imagenes/x48-archivos.png")));
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+	
+				desktopPane.add(re);
+			    re.setVisible(true);
+				
+			}
+		});
+		mnNewMenu_1.add(mntmNewMenuItem_1);
+		
+		JSeparator separator = new JSeparator();
+		mnNewMenu_1.add(separator);
+		
+		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Buscar Docente");
+		mntmNewMenuItem_6.setIcon(new ImageIcon(Menu.class.getResource("/imagenes/x48-buscar.png")));
+		mntmNewMenuItem_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			
+				
+				desktopPane.add(b);
+			    b.setVisible(true);
+				
+			}
+		});
+		mnNewMenu_1.add(mntmNewMenuItem_6);
+		
+		JMenu mnNewMenu_2 = new JMenu("Categoria");
+		mnNewMenu_2.setIcon(new ImageIcon(Menu.class.getResource("/imagenes/iconfinder_group_2431357 (1).png")));
+		menuBar.add(mnNewMenu_2);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Ofertas de Trabajo");
+		mntmNewMenuItem_2.setIcon(new ImageIcon(Menu.class.getResource("/imagenes/iconfinder_File_Files_Folder_Document_Doc_Data_Upload_3909345.png")));
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				desktopPane.add(of);
+				of.setVisible(true);
+			}
+		});
+		mnNewMenu_2.add(mntmNewMenuItem_2);
+		
+		JMenu mnNewMenu_3 = new JMenu("Filtro");
+		mnNewMenu_3.setIcon(new ImageIcon(Menu.class.getResource("/imagenes/x48-lista.png")));
+		menuBar.add(mnNewMenu_3);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Por Zona");
+		mntmNewMenuItem_3.setIcon(new ImageIcon(Menu.class.getResource("/imagenes/x48-buscar.png")));
+		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				desktopPane.add(zon);
+				zon.setVisible(true);
+			}
+		});
+		mnNewMenu_3.add(mntmNewMenuItem_3);
+		
+		JMenu mnNewMenu_4 = new JMenu("Configuracion");
+		mnNewMenu_4.setIcon(new ImageIcon(Menu.class.getResource("/imagenes/x48-ajustes.png")));
+		menuBar.add(mnNewMenu_4);
+		
+		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Editar Perfil");
+		mntmNewMenuItem_4.setIcon(new ImageIcon(Menu.class.getResource("/imagenes/x48-reporte.png")));
+		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+              
+			
+			ed.setVisible(true);
+				
+			}
+		});
+		mnNewMenu_4.add(mntmNewMenuItem_4);
+		
+		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Editar CV");
+		mntmNewMenuItem_5.setIcon(new ImageIcon(Menu.class.getResource("/imagenes/x48-archivos.png")));
+		mntmNewMenuItem_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				
+			}
+		});
+		
+		JSeparator separator_1 = new JSeparator();
+		mnNewMenu_4.add(separator_1);
+		mnNewMenu_4.add(mntmNewMenuItem_5);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
+		
+		desktopPane = new JDesktopPane();
+		desktopPane.setBackground(new Color(230, 230, 250));
+		contentPane.add(desktopPane, BorderLayout.CENTER);
+		desktopPane.setLayout(null);
+		
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setIcon(new ImageIcon(Menu.class.getResource("/imagenes/fondo.jpg")));
+		lblNewLabel.setBounds(654, 0, 1256, 971);
+		desktopPane.add(lblNewLabel);
+	}
+}

@@ -1,0 +1,222 @@
+package formularios;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import bean.Usuario;
+import default1.Menu;
+import mantenimiento.GestionUsuario;
+
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import javax.swing.JProgressBar;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+public class frmLogin extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField txtUsuario;
+	private JPasswordField txtContraseña;
+	public static JProgressBar pbCargar;
+	private JLabel lblErrorUsuario;
+	private JLabel lblErrorContraseña;
+	private JButton btnIngresar;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					frmLogin frame = new frmLogin();
+					frame.setVisible(true);
+					
+					
+					
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public frmLogin() {
+		setTitle("Acceso al Sistema");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 375, 447);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblUsuario = new JLabel("Usuario:");
+		lblUsuario.setIcon(new ImageIcon(frmLogin.class.getResource("/img/User_32x32.png")));
+		lblUsuario.setBounds(26, 39, 84, 39);
+		contentPane.add(lblUsuario);
+		
+		JLabel lblContraseña = new JLabel("Contrase\u00F1a:");
+		lblContraseña.setIcon(new ImageIcon(frmLogin.class.getResource("/img/Key_32x32.png")));
+		lblContraseña.setBounds(26, 98, 109, 20);
+		contentPane.add(lblContraseña);
+		
+		txtUsuario = new JTextField();
+		txtUsuario.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+				lblErrorUsuario.setVisible(false);
+				txtUsuario.setCaretColor(Color.black);
+			}
+		});
+		txtUsuario.setBounds(134, 48, 100, 20);
+		contentPane.add(txtUsuario);
+		txtUsuario.setColumns(10);
+		
+		txtContraseña = new JPasswordField();
+		txtContraseña.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+				lblErrorContraseña.setVisible(false);
+				txtContraseña.setCaretColor(Color.black);
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(txtContraseña.getText().length()>0){
+					btnIngresar.setEnabled(true);
+				}else{
+					btnIngresar.setEnabled(false);
+				}
+			}
+		});
+		txtContraseña.setBounds(134, 98, 100, 20);
+		contentPane.add(txtContraseña);
+		
+		JButton btnSalir = new JButton("Salir");
+		btnSalir.setIcon(new ImageIcon(frmLogin.class.getResource("/img/Remove_32x32.png")));
+		btnSalir.setBounds(199, 358, 121, 39);
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				salir();
+			}
+		});
+		contentPane.add(btnSalir);
+		
+		btnIngresar = new JButton("");
+		btnIngresar.setBackground(Color.WHITE);
+		btnIngresar.setEnabled(false);
+		btnIngresar.setIcon(new ImageIcon(frmLogin.class.getResource("/imagenes/login/btn_iniciar_2.png")));
+		btnIngresar.setBounds(45, 339, 118, 58);
+		btnIngresar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ingresar();
+			}
+		});
+		contentPane.add(btnIngresar);
+		
+		pbCargar = new JProgressBar();
+		pbCargar.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				cargar();
+			}
+		});
+		pbCargar.setStringPainted(true);
+		pbCargar.setBounds(45, 150, 202, 14);
+		contentPane.add(pbCargar);
+		
+		lblErrorUsuario = new JLabel("");
+		lblErrorUsuario.setVisible(false);
+		lblErrorUsuario.setIcon(new ImageIcon(frmLogin.class.getResource("/img/Help_16x16.png")));
+		lblErrorUsuario.setBounds(244, 49, 46, 20);
+		contentPane.add(lblErrorUsuario);
+		
+		lblErrorContraseña = new JLabel("");
+		lblErrorContraseña.setVisible(false);
+		lblErrorContraseña.setIcon(new ImageIcon(frmLogin.class.getResource("/img/Help_16x16.png")));
+		lblErrorContraseña.setBounds(244, 98, 46, 20);
+		contentPane.add(lblErrorContraseña);
+	}
+
+	protected void cargar() {
+		
+		if(pbCargar.getValue()==100) {
+			
+			Menu me = new Menu();
+			me.setVisible(true);
+			me.setLocationRelativeTo(null);
+			
+			this.dispose();
+			
+			JOptionPane.showMessageDialog(rootPane,"Bienvenido al Sistema");
+			
+		}
+	}
+
+	protected void ingresar() {
+	
+		String usuario=txtUsuario.getText();
+		String clave=String.valueOf(txtContraseña.getPassword());
+		
+		GestionUsuario gestion = new GestionUsuario();
+		
+		Usuario usuario2 = new Usuario();
+		usuario2.setUsuario(usuario);
+		usuario2.setClave(clave);
+		
+		
+		Usuario usu = gestion.obtenerUsuario(usuario2);
+		
+		if(usu!=null) {
+			
+			
+
+			
+			HiloBarra ba = new HiloBarra();
+			ba.start();
+			
+			
+			
+			
+		}else if(txtUsuario.getText().equals("")) {
+			
+			lblErrorUsuario.setVisible(true);
+			txtUsuario.setCaretColor(Color.RED);
+			txtUsuario.requestFocus();
+			
+			
+			
+			
+		}else if(txtContraseña.getText().equals("")){
+			lblErrorContraseña.setVisible(true);
+			txtContraseña.setCaretColor(Color.RED);
+			txtContraseña.requestFocus();
+			
+			JOptionPane.showMessageDialog(contentPane,"Datos invalidos","Error",JOptionPane.ERROR_MESSAGE);
+		}
+		
+	}
+
+	protected void salir() {
+		System.exit(0);
+		
+	}
+}
