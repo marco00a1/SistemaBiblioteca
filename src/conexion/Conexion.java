@@ -5,13 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexion {
-	/*
-    private static final String URL =
-        "jdbc:sqlserver://localhost:1433;databaseName=SistemaBiblioteca;encrypt=false;trustServerCertificate=true";
-    private static final String USER = "sa";
-    private static final String PASSWORD = "123456$";
-    */
-    
+	
     private static final String URL =
             "jdbc:sqlserver://TI-03-2:1433;databaseName=SistemaBiblioteca;encrypt=false;trustServerCertificate=true";
     private static final String USER = "sa";
