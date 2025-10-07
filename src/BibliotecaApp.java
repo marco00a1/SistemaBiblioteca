@@ -1,6 +1,6 @@
 import vista.LoginFrame;
 
-/* Prueba de commit. para el video*/
+/* Prueba de commit. para el video v2 , video mas breve.*/
 
 public class BibliotecaApp {
     public static void main(String[] args) {
